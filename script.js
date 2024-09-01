@@ -1,7 +1,7 @@
 const ASSIGNED_INITIAL_VALUE = 'Asignado 1';
 const PRIORITY_INITIAL_VALUE = "Alta"
 const STATE_INITIAL_VALUE = "Backlog";
-
+let taskID = 0;
 
 const tasks = [ {
     title: 'Tarjeta 1',
@@ -48,6 +48,7 @@ function addTaskHandler() {
     const prioridad = document.getElementById("task-priority").value;
     const estado = document.getElementById("task-status").value;
     const fecha = document.getElementById("deadline").value;
+    const id = taskID++;
 
     if (titulo === "" || fecha === "") {
         window.alert("Debes completar todos los campos.");
@@ -61,6 +62,7 @@ function addTaskHandler() {
         priority: prioridad,
         state: estado,
         deadline: fecha,
+        id: id,
     };
 
     tasks.push(task);
@@ -142,11 +144,48 @@ function createTask(task) {
     }
 
     cardTitle.textContent = task.title;
+    cardElement.addEventListener('click', () => openEditModal(task.id));
 }
 
-function loadTasks(task) {
-    tasks.forEach(task => {
-        createTask(task);
+function loadTasks(tasks) {
+    document.querySelectorAll('.tasks').forEach(column => column.innerHTML = '');
+
+    tasks.forEach((task, index) => {
+        createTask(task, index);
     });
+}
+
+function openEditModal(taskIndex) {
+    const task = tasks[taskIndex];
+
+    document.getElementById("edit-task-title").value = task.title;
+    document.getElementById("edit-task-description").value = task.description;
+    document.getElementById("edit-task-assigned").value = task.assigned;
+    document.getElementById("edit-task-priority").value = task.priority;
+    document.getElementById("edit-task-status").value = task.state;
+    document.getElementById("edit-deadline").value = task.deadline;
+
+    const editModal = document.getElementById("modal-editar-tarea");
+    const overlay = document.querySelector(".overlay");
+    editModal.style.display = "flex";
+    overlay.style.display = "block";
+
+    const acceptEditButton = document.getElementById("aceptar-editar");
+    acceptEditButton.onclick = function() {
+        saveTaskChanges(taskIndex);
+    }
+}
+
+function saveTaskChanges(taskIndex) {
+    const task = tasks[taskIndex];
+
+    task.title = document.getElementById("edit-task-title").value.trim();
+    task.description = document.getElementById("edit-task-description").value.trim();
+    task.assigned = document.getElementById("edit-task-assigned").value;
+    task.priority = document.getElementById("edit-task-priority").value;
+    task.state = document.getElementById("edit-task-status").value;
+    task.deadline = document.getElementById("edit-deadline").value;
+    closeModal();
+    loadTasks(tasks);
 }
 

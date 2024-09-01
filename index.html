@@ -142,16 +142,88 @@
     </article>
 
                                                                                                 <!-- editar tarea -->
-    <article class="message is-warning crear-editar">
+    <article id="modal-editar-tarea" class="message is-warning crear-editar">
         <div class="message-header header-mensaje">
-            <p>Editar tarea</p>
+            <p class="subtitle is-4 crear-editar-titulo">Editar tarea</p>
         </div>
         <div class="message-body">
+            <div class="columns">
+                <!-- Columna Izquierda -->
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Título</label>
+                        <div class="control">
+                            <input id="edit-task-title" class="input" type="text" placeholder="Título">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Descripción</label>
+                        <div class="control">
+                            <textarea id="edit-task-description" class="textarea" placeholder="Descripción de la tarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna Centro -->
+                <div class="column is-quarter columna2">
+                    <div class="field">
+                        <label class="label">Estado</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="edit-task-status">
+                                    <option value="backlog">Backlog</option>
+                                    <option value="to-do">To-Do</option>
+                                    <option value="in progress">In progress</option>
+                                    <option value="blocked">Blocked</option>
+                                    <option value="done">Done</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="field">
+                        <label class="label">Prioridad</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="edit-task-priority">
+                                    <option>Alta</option>
+                                    <option>Media</option>
+                                    <option>Baja</option>
+                                    <option>Arreglar</option>
+                                    <option>Extras</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna Derecha -->
+                <div class="column is-quarter columna3">
+                    <div class="field">
+                        <label class="label">Asignado</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="edit-task-assigned">
+                                    <option>Persona 1</option>
+                                    <option>Persona 2</option>
+                                    <option>Persona 3</option>
+                                    <option>Persona 4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Fecha límite</label>
+                        <div class="control">
+                            <input id="edit-deadline" class="input" type="date" placeholder="dd/mm/aaaa">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="is-flex is-justify-content-flex-end botones-espaciados">
-                <button class="button is-danger">Cancelar</button>
-                <button class="button is-success">Aceptar</button>
+                <button id="cancelar-editar" class="button is-danger boton-aceptar-cancelar">Cancelar</button>
+                <button id="aceptar-editar" class="button is-success boton-aceptar-cancelar">Guardar Cambios</button>
             </div>
         </div>
     </article>
+    
 </body>
 </html>
