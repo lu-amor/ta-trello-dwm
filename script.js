@@ -2,15 +2,9 @@ const ASSIGNED_INITIAL_VALUE = 'Asignado 1';
 const PRIORITY_INITIAL_VALUE = "Alta"
 const STATE_INITIAL_VALUE = "Backlog";
 let taskID = 0;
+let editingTaskId = null; 
 
-const tasks = [ {
-    title: 'Tarjeta 1',
-    description: 'Tarjeta de prueba 1',
-    assigned: ASSIGNED_INITIAL_VALUE,
-    priority: PRIORITY_INITIAL_VALUE,
-    state: STATE_INITIAL_VALUE,
-    deadline: "28/08/2024",
-}];
+const tasks = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks(tasks);
@@ -20,10 +14,23 @@ const addTask = document.getElementById("agregar-tarea");
 addTask.addEventListener("click", openModal);
 
 const cancel = document.getElementById("cancelar");
-cancel.addEventListener("click", closeModal);
+cancel.addEventListener("click", closeModalCrear);
+
+const cancelEdit = document.getElementById("cancelar-editar");
+cancelEdit.addEventListener("click", closeModalEditar);
 
 const accept = document.getElementById("aceptar");
 accept.addEventListener("click", addTaskHandler);
+
+const acceptEdit = document.getElementById("aceptar-editar");
+acceptEdit.addEventListener("click", saveTaskChanges);
+
+const deleteEdit = document.getElementById("eliminar-editar");
+deleteEdit.addEventListener("click", () => {
+    deleteTask(editingTaskId);
+    closeModalEditar();
+    loadTasks(tasks);
+});
 
 const modal = document.getElementById("modal-crear-tarea");
 modal.addEventListener('click', (event) => {
@@ -67,15 +74,23 @@ function addTaskHandler() {
 
     tasks.push(task);
     createTask(task)
-    closeModal();
+    closeModalCrear();
     loadTasks(tasks);
 }
     
-function closeModal() {
+function closeModalCrear() {
     const modal = document.getElementById("modal-crear-tarea");
     const overlay = document.querySelector(".overlay");
     clearModal();
     modal.style.display = "none";
+    overlay.style.display = "none";
+}
+
+function closeModalEditar() {
+    const editModal = document.getElementById("modal-editar-tarea");
+    const overlay = document.querySelector(".overlay");
+    clearModal();
+    editModal.style.display = "none";
     overlay.style.display = "none";
 }
     
@@ -98,7 +113,7 @@ function createTask(task) {
     </div>`;
 
     let column;
-    switch (task.state) {
+    switch (task.state.toLowerCase()) {
         case "backlog":
             column = document.getElementById("backlog");
             break;
@@ -114,13 +129,16 @@ function createTask(task) {
         case "done":
             column = document.getElementById("done");
             break;
+        default:
+            console.error("Estado no válido");
+            return;
     }
 
     column.insertAdjacentHTML("beforeend", template);
 
-    const cardHeader = column.lastElementChild;
-    const priorityTag = cardHeader.querySelector('span.tag');
-    const cardTitle = cardHeader.querySelector('p.title');
+    const cardElement = column.lastElementChild;
+    const priorityTag = cardElement.querySelector('span.tag');
+    const cardTitle = cardElement.querySelector('p.title');
 
     switch (task.priority) {
         case "Alta":
@@ -144,6 +162,7 @@ function createTask(task) {
     }
 
     cardTitle.textContent = task.title;
+
     cardElement.addEventListener('click', () => openEditModal(task.id));
 }
 
@@ -155,8 +174,10 @@ function loadTasks(tasks) {
     });
 }
 
-function openEditModal(taskIndex) {
-    const task = tasks[taskIndex];
+function openEditModal(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+
+    editingTaskId = taskId;
 
     document.getElementById("edit-task-title").value = task.title;
     document.getElementById("edit-task-description").value = task.description;
@@ -169,15 +190,10 @@ function openEditModal(taskIndex) {
     const overlay = document.querySelector(".overlay");
     editModal.style.display = "flex";
     overlay.style.display = "block";
-
-    const acceptEditButton = document.getElementById("aceptar-editar");
-    acceptEditButton.onclick = function() {
-        saveTaskChanges(taskIndex);
-    }
 }
 
-function saveTaskChanges(taskIndex) {
-    const task = tasks[taskIndex];
+function saveTaskChanges() {
+    const task = tasks.find(t => t.id === editingTaskId);
 
     task.title = document.getElementById("edit-task-title").value.trim();
     task.description = document.getElementById("edit-task-description").value.trim();
@@ -185,7 +201,28 @@ function saveTaskChanges(taskIndex) {
     task.priority = document.getElementById("edit-task-priority").value;
     task.state = document.getElementById("edit-task-status").value;
     task.deadline = document.getElementById("edit-deadline").value;
-    closeModal();
+    
+    closeModalEditar();
     loadTasks(tasks);
 }
+
+function deleteTask(taskId) {
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+
+    if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
+
+        const taskElement = document.getElementById(`task-${taskId}`);
+        
+        if (taskElement) {
+            taskElement.remove();
+        } else {
+            console.error(`Task element with ID task-${taskId} not found in the DOM.`);
+        }
+    } else {
+        console.error(`Task with ID ${taskId} not found in the tasks array.`);
+    }
+    closeModalEditar();
+}
+
 

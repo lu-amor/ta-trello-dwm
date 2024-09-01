@@ -21,7 +21,7 @@
         <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile ">
             <div class="box columna">
                 <h4 class="title is-4 titulo-columna">backlog</h4>
-                <div id="backlog" class="dropzone tasks">
+                <div id="backlog" class="tasks">
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
             <div class="box columna">
                 <h4 class="title is-4 titulo-columna">to-do</h4>
-                <div id="to-do" class="dropzone tasks">
+                <div id="to-do" class="tasks">
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
             <div class="box columna">
                 <h4 class="title is-4 titulo-columna">in progress</h4>
-                <div id="in-progress" class="dropzone tasks">
+                <div id="in-progress" class="tasks">
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
             <div class="box columna">
                 <h4 class="title is-4 titulo-columna">blocked</h4>
-                <div id="blocked" class="dropzone tasks">
+                <div id="blocked" class="tasks">
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
             <div class="box columna">
                 <h4 class="title is-4 titulo-columna">done</h4>
-                <div id="done" class="dropzone tasks">
+                <div id="done" class="tasks">
                 </div>
             </div>
         </div>
@@ -142,6 +142,7 @@
     </article>
 
                                                                                                 <!-- editar tarea -->
+    <div class="overlay"></div>
     <article id="modal-editar-tarea" class="message is-warning crear-editar">
         <div class="message-header header-mensaje">
             <p class="subtitle is-4 crear-editar-titulo">Editar tarea</p>
@@ -194,6 +195,7 @@
                             </div>
                         </div>
                     </div>
+                    <button id="eliminar-editar" class="button is-danger boton-aceptar-cancelar">Eliminar tarea</button>
                 </div>
                 <!-- Columna Derecha -->
                 <div class="column is-quarter columna3">
