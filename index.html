@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    >
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <title>Gestor de tareas</title>
+</head>
+<body>
+    <h1 class="title is-1 titulo" >Gestor de tareas</h1>
+    <div class="is-flex is-justify-content-flex-end">
+        <button id="agregar-tarea" class="button is-warning agregar-tareas">Agregar Tarea</button>
+    </div>
+    <div class="columns is-mobile is-multiline">
+                                                                                                <!-- columna 1 -->
+        <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile ">
+            <div class="box columna">
+                <h4 class="title is-4 titulo-columna">backlog</h4>
+                <div id="backlog" class="dropzone tasks">
+                </div>
+            </div>
+        </div>
+                                                                                                <!-- columna 2 -->
+        <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
+            <div class="box columna">
+                <h4 class="title is-4 titulo-columna">to-do</h4>
+                <div id="to-do" class="dropzone tasks">
+                </div>
+            </div>
+        </div>
+                                                                                                <!-- columna 3 -->
+        <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
+            <div class="box columna">
+                <h4 class="title is-4 titulo-columna">in progress</h4>
+                <div id="in-progress" class="dropzone tasks">
+                </div>
+            </div>
+        </div>
+                                                                                                <!-- columna 4 -->
+        <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
+            <div class="box columna">
+                <h4 class="title is-4 titulo-columna">blocked</h4>
+                <div id="blocked" class="dropzone tasks">
+                </div>
+            </div>
+        </div>
+                                                                                                <!-- columna 5 -->
+        <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
+            <div class="box columna">
+                <h4 class="title is-4 titulo-columna">done</h4>
+                <div id="done" class="dropzone tasks">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <article id="modal-crear-tarea" class="message is-warning crear-editar">
+        <div class="message-header header-mensaje">
+            <p class="subtitle is-4 crear-editar-titulo">Crear tarea</p>
+        </div>
+        <div class="message-body">
+            <div class="columns">
+                <!-- Columna Izquierda -->
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Título</label>
+                        <div class="control">
+                            <input id="task-title" class="input" type="text" placeholder="Título">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Descripción</label>
+                        <div class="control">
+                            <textarea id="task-description" class="textarea" placeholder="Descripción de la tarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna centro -->
+                <div class="column is-quarter columna2">
+                    <div class="field">
+                        <label class="label">Estado</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="task-status">
+                                    <option value="backlog">Backlog</option>
+                                    <option value="to-do">To-Do</option>
+                                    <option value="in progress">In progress</option>
+                                    <option value="blocked">Blocked</option>
+                                    <option value="done">Done</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Prioridad</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="task-priority">
+                                    <option value="Alta">Alta</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Arreglar">Arreglar</option>
+                                    <option value="Extras">Extras</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-quarter columna3">
+                    <div class="field">
+                        <label class="label">Asignado</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="task-assigned">
+                                    <option>Persona 1</option>
+                                    <option>Persona 2</option>
+                                    <option>Persona 3</option>
+                                    <option>Persona 4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Fecha límite</label>
+                        <div class="control">
+                            <input id="deadline" class="input" type="date" placeholder="dd/mm/aaaa">
+                        </div>
+                    </div>
+                </div>
+            <div class="is-flex is-justify-content-flex-end botones-espaciados">
+                <button id="cancelar" class="button is-danger boton-aceptar-cancelar">Cancelar</button>
+                <button id="aceptar" class="button is-success boton-aceptar-cancelar">Aceptar</button>
+            </div>
+        </div>
+    </article>
+
+                                                                                                <!-- editar tarea -->
+    <article class="message is-warning crear-editar">
+        <div class="message-header header-mensaje">
+            <p>Editar tarea</p>
+        </div>
+        <div class="message-body">
+            <div class="is-flex is-justify-content-flex-end botones-espaciados">
+                <button class="button is-danger">Cancelar</button>
+                <button class="button is-success">Aceptar</button>
+            </div>
+        </div>
+    </article>
+</body>
+</html>

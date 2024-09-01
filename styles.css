@@ -1,0 +1,122 @@
+:root {
+    --bulma-warning-h: 26deg;
+    --bulma-warning-s: 85%;
+    --bulma-warning-l: 80%;
+}
+
+.columns {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.titulo {
+    text-align: center;
+    color: #ff6b35;
+    margin-top: 15px;
+}
+
+.agregar-tareas {
+    align-content: right;
+    justify-content: right;
+    align-items: right;
+    margin-bottom: 20px;
+    margin-right: 34px;
+}
+
+.columna {
+    background-color: #1a659e;
+}
+
+.titulo-columna {
+    color: white;
+    text-align: center;
+}
+
+.header-mensaje {
+    justify-content: center;
+}
+
+.add-tarea {
+    color: white;
+}
+
+.botones-espaciados button {
+    margin-left: 8px; /* Puedes ajustar el valor según el espacio que desees */
+}
+
+.botones-espaciados button:first-child {
+    margin-left: 0; /* Asegura que el primer botón no tenga margen a la izquierda */
+}
+
+.crear-editar {
+    margin: 0;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: fit-content;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: none;
+}
+
+.header-mensaje {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    z-index: 999; /* Justo debajo de la ventana modal */
+    display: none; /* Oculto por defecto */
+}
+
+.column.is-half.columna2 .field {
+    text-align: right;
+}
+
+.column.is-half.columna2 .control {
+    display: inline-block;
+    width: auto;
+}
+
+.message-body {
+    position: relative;
+    padding-bottom: 3rem; /* Espacio suficiente para los botones */
+}
+
+.botones-espaciados {
+    position: absolute;
+    bottom: 2rem;
+    right: 3rem;
+}
+
+.crear-editar-titulo {
+    color: white;
+    font-weight: 800;
+}
+.card {
+    padding-top: 5px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+.tag {
+    width: 70px;
+    height: 10px;
+}
+
+.is-5 {
+    margin-top: 5px;
+}
+
