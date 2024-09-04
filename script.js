@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const addTask = document.getElementById("agregar-tarea");
 addTask.addEventListener("click", openModal);
 
+
 const cancel = document.getElementById("cancelar");
 cancel.addEventListener("click", closeModalCrear);
 
@@ -21,13 +22,24 @@ cancelEdit.addEventListener("click", closeModalEditar);
 const accept = document.getElementById("aceptar");
 accept.addEventListener("click", addTaskHandler);
 
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Enter' && document.getElementById("modal-crear-tarea").style.display === "flex") {
+    addTaskHandler();
+    }
+});
+
 const acceptEdit = document.getElementById("aceptar-editar");
 acceptEdit.addEventListener("click", saveTaskChanges);
+
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Enter' && document.getElementById("modal-editar-tarea").style.display === "flex") {
+    saveTaskChanges();
+    }
+});
 
 const deleteEdit = document.getElementById("eliminar-editar");
 deleteEdit.addEventListener("click", () => {
     deleteTask(editingTaskId);
-    loadTasks(tasks);
 });
 
 const modal = document.getElementById("modal-crear-tarea");
@@ -72,11 +84,9 @@ function addTaskHandler() {
     createTask(task);
     postTask(task);
     closeModalCrear();
-    loadTasks(tasks);
 }
     
 function closeModalCrear() {
-    console.log("ejecutando closeModalCrear");
     const modal = document.getElementById("modal-crear-tarea");
     const overlay = document.querySelector(".overlay");
     clearModal();
@@ -85,7 +95,6 @@ function closeModalCrear() {
 }
 
 function closeModalEditar() {
-    console.log("ejecutando closeModalEditar");
     const editModal = document.getElementById("modal-editar-tarea");
     const overlay = document.querySelector(".overlay");
     clearModal();
@@ -103,7 +112,6 @@ function clearModal() {
 }
     
 function createTask(task) {
-    console.log("creating task: ", task);
     const template = `
     <div class="card">
         <div class="titulo-tarjeta">
@@ -175,9 +183,7 @@ function loadTasks(tasks) {
 }
 
 function openEditModal(taskId) {
-    console.log("ejecutando openEditModal");
     const task = tasks.find(t => t.id === taskId);
-    console.log("taskID: ", task, taskId);
     editingTaskId = taskId;
 
     document.getElementById("edit-task-title").value = task.title;
@@ -188,9 +194,7 @@ function openEditModal(taskId) {
     document.getElementById("edit-deadline").value = task.deadline;
 
     const editModal = document.getElementById("modal-editar-tarea");
-    console.log("editModal: ", editModal);
     const overlay = document.querySelector(".overlay");
-    console.log("overlay: ", overlay);
     editModal.style.display = "flex";
     overlay.style.display = "block";
 }
@@ -207,27 +211,27 @@ function saveTaskChanges() {
     
     closeModalEditar();
     updateTask(task);
-    loadTasks(tasks);
 }
 
 function deleteTask(taskId) {
     const taskIndex = tasks.findIndex(task => task.id === taskId);
 
     if (taskIndex !== -1) {
+        const task = tasks[taskIndex];
         tasks.splice(taskIndex, 1);
-
-        const taskElement = document.getElementById(`task-${taskId}`);
-        
+        const taskElement = document.getElementById(`${taskId}`);
         if (taskElement) {
             taskElement.remove();
         } else {
-            console.error(`Task element with ID task-${taskId} not found in the DOM.`);
+            console.error(`Task element with ID ${taskId} not found in the DOM.`);
         }
+        asyncDeleteTask(task);
     } else {
         console.error(`Task with ID ${taskId} not found in the tasks array.`);
     }
     closeModalEditar();
 }
+
 
 const url = "http://localhost:3000/tasks";
 
@@ -250,9 +254,6 @@ tasks.forEach((task) => {
     createTask(task);
 })});
 
-
-loadTasks(tasks);
-
 async function updateTask(task) {
     try {
         const response = await fetch(url + `/${task.id}`,
@@ -272,6 +273,20 @@ async function postTask(task) {
             { method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task) });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error fetching data: ", error);
+    }
+}
+
+async function asyncDeleteTask(task) {
+    try {
+        const response = await fetch(url + `/${task.id}`,
+            { method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(task)
+            });
         const data = await response.json();
         return data;
     } catch (error) {
