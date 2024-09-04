@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Task 1",
+      "description": "Description 1",
+      "state": "to-do",
+      "assigned": "Persona 2",
+      "priority": "Alta",
+      "deadline": "2024-09-11"
+    },
+    {
+      "id": "2",
+      "title": "Task 2",
+      "description": "Description 2",
+      "state": "in progress",
+      "assigned": "Persona 4",
+      "priority": "Media",
+      "deadline": "06-09-2024"
+    },
+    {
+      "id": "3",
+      "title": "tarea actualizada1",
+      "description": "Description 3",
+      "state": "backlog",
+      "assigned": "Persona 3",
+      "priority": "Baja",
+      "deadline": ""
+    },
+    {
+      "id": "c8f4",
+      "title": "asdfgh",
+      "description": "",
+      "assigned": "Persona 1",
+      "priority": "Alta",
+      "state": "backlog",
+      "deadline": "2024-09-19"
+    }
+  ]
+}

@@ -1,10 +1,9 @@
 const ASSIGNED_INITIAL_VALUE = 'Asignado 1';
 const PRIORITY_INITIAL_VALUE = "Alta"
 const STATE_INITIAL_VALUE = "Backlog";
-let taskID = 0;
 let editingTaskId = null; 
 
-const tasks = [];
+let tasks = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks(tasks);
@@ -28,7 +27,6 @@ acceptEdit.addEventListener("click", saveTaskChanges);
 const deleteEdit = document.getElementById("eliminar-editar");
 deleteEdit.addEventListener("click", () => {
     deleteTask(editingTaskId);
-    closeModalEditar();
     loadTasks(tasks);
 });
 
@@ -37,7 +35,7 @@ modal.addEventListener('click', (event) => {
     event.stopPropagation();
 });
 
-window.addEventListener('click', closeModal);
+window.addEventListener('click', closeModalCrear);
 
 function openModal(event) {
     event.preventDefault();
@@ -55,7 +53,6 @@ function addTaskHandler() {
     const prioridad = document.getElementById("task-priority").value;
     const estado = document.getElementById("task-status").value;
     const fecha = document.getElementById("deadline").value;
-    const id = taskID++;
 
     if (titulo === "" || fecha === "") {
         window.alert("Debes completar todos los campos.");
@@ -69,16 +66,17 @@ function addTaskHandler() {
         priority: prioridad,
         state: estado,
         deadline: fecha,
-        id: id,
     };
 
     tasks.push(task);
-    createTask(task)
+    createTask(task);
+    postTask(task);
     closeModalCrear();
     loadTasks(tasks);
 }
     
 function closeModalCrear() {
+    console.log("ejecutando closeModalCrear");
     const modal = document.getElementById("modal-crear-tarea");
     const overlay = document.querySelector(".overlay");
     clearModal();
@@ -87,6 +85,7 @@ function closeModalCrear() {
 }
 
 function closeModalEditar() {
+    console.log("ejecutando closeModalEditar");
     const editModal = document.getElementById("modal-editar-tarea");
     const overlay = document.querySelector(".overlay");
     clearModal();
@@ -104,6 +103,7 @@ function clearModal() {
 }
     
 function createTask(task) {
+    console.log("creating task: ", task);
     const template = `
     <div class="card">
         <div class="titulo-tarjeta">
@@ -175,8 +175,9 @@ function loadTasks(tasks) {
 }
 
 function openEditModal(taskId) {
+    console.log("ejecutando openEditModal");
     const task = tasks.find(t => t.id === taskId);
-
+    console.log("taskID: ", task, taskId);
     editingTaskId = taskId;
 
     document.getElementById("edit-task-title").value = task.title;
@@ -187,7 +188,9 @@ function openEditModal(taskId) {
     document.getElementById("edit-deadline").value = task.deadline;
 
     const editModal = document.getElementById("modal-editar-tarea");
+    console.log("editModal: ", editModal);
     const overlay = document.querySelector(".overlay");
+    console.log("overlay: ", overlay);
     editModal.style.display = "flex";
     overlay.style.display = "block";
 }
@@ -203,6 +206,7 @@ function saveTaskChanges() {
     task.deadline = document.getElementById("edit-deadline").value;
     
     closeModalEditar();
+    updateTask(task);
     loadTasks(tasks);
 }
 
@@ -225,4 +229,52 @@ function deleteTask(taskId) {
     closeModalEditar();
 }
 
+const url = "http://localhost:3000/tasks";
 
+async function fetchTasks() {
+    try {
+        const response = await fetch(url, { method: "GET" });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error fetching data: ", error);
+    }
+}
+
+tasksPromise = fetchTasks();
+
+tasksPromise.then((incommingTask) =>{
+tasks = [...incommingTask];
+
+tasks.forEach((task) => {
+    createTask(task);
+})});
+
+
+loadTasks(tasks);
+
+async function updateTask(task) {
+    try {
+        const response = await fetch(url + `/${task.id}`,
+            { method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task) });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error fetching data: ", error);
+    }
+}
+
+async function postTask(task) {
+    try {
+        const response = await fetch(url,
+            { method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task) });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error fetching data: ", error);
+    }
+}
