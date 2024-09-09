@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
 const addTask = document.getElementById("agregar-tarea");
 addTask.addEventListener("click", openModal);
 
-
 const cancel = document.getElementById("cancelar");
 cancel.addEventListener("click", closeModalCrear);
 
@@ -230,8 +229,8 @@ function deleteTask(taskId) {
         console.error(`Task with ID ${taskId} not found in the tasks array.`);
     }
     closeModalEditar();
+    loadTasks(tasks);
 }
-
 
 const url = "http://localhost:3000/tasks";
 
