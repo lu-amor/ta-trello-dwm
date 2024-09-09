@@ -10,13 +10,13 @@
       "deadline": "2024-09-20"
     },
     {
-      "id": "b466",
-      "title": "Task 2",
+      "id": "b769",
+      "title": "Task 3",
       "description": "",
       "assigned": "Persona 1",
-      "priority": "Alta",
-      "state": "backlog",
-      "deadline": "2024-09-13"
+      "priority": "Baja",
+      "state": "in progress",
+      "deadline": "2024-09-11"
     }
   ]
 }

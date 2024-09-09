@@ -210,6 +210,7 @@ function saveTaskChanges() {
     
     closeModalEditar();
     updateTask(task);
+    loadTasks(tasks);
 }
 
 function deleteTask(taskId) {
